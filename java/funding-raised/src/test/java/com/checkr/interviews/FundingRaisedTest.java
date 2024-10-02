@@ -1,7 +1,8 @@
-package com.acme.interviews;
+package com.checkr.interviews;
 import java.util.*;
 import java.io.IOException;
-
+import com.checkr.interviews.FundingRaised;
+import com.checkr.interviews.NoSuchEntryException;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -136,10 +137,7 @@ public class FundingRaisedTest
             assertEquals(row.get("funded_date"), "1-Sep-04");
             assertEquals(row.get("raised_amount"), "500000");
             assertEquals(row.get("round"), "angel");
-        } catch(IOException e) {
-            System.out.print(e.getMessage());
-            System.out.print("error");
-        } catch(NoSuchEntryException e) {
+        } catch(IOException | NoSuchEntryException e) {
             System.out.print(e.getMessage());
             System.out.print("error");
         }
@@ -163,13 +161,12 @@ public class FundingRaisedTest
         } catch(IOException e) {
             System.out.print(e.getMessage());
             System.out.print("error");
-        } catch(NoSuchEntryException e) {
-            System.out.print(e.getMessage());
-            System.out.print("error");
+        } catch (NoSuchEntryException e) {
+            System.out.println(e.getMsg());
         }
     }
 
-    public void testFindByMultipleOptions() {
+    public void testFindByMultipleOptions()throws NoSuchEntryException {
         try {
             Map<String, String> options = new HashMap<String, String> ();
             options.put("company_name", "Facebook");
@@ -188,9 +185,6 @@ public class FundingRaisedTest
         } catch(IOException e) {
             System.out.print(e.getMessage());
             System.out.print("error");
-        } catch(NoSuchEntryException e) {
-            System.out.print(e.getMessage());
-            System.out.print("error");
         }
     }
 
@@ -201,10 +195,9 @@ public class FundingRaisedTest
             options.put("round", "c");
             Map<String, String> row = FundingRaised.findBy(options);
             fail("findBy should throw exception");
-        } catch(IOException e) {
+        } catch(IOException | NoSuchEntryException e) {
             System.out.print(e.getMessage());
             System.out.print("error");
-        } catch(NoSuchEntryException e) {
         }
     }
 }
